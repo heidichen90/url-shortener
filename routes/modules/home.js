@@ -7,25 +7,26 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  console.log(req.body);
   const url = req.body.inputUrl;
   let shortenUrl = "";
-  //look up in db to check if exisitng record
-  //need to move it out as a function and then do a await here
   Url.findOne({ url })
     .lean()
-    .then((searchResult) => {
-      shortenUrl = searchResult;
-      if (!shortenUrl) {
-        //generate a shorten url and make sure it's not exist
+    .then(async (searchResult) => {
+      shortenUrl = searchResult ? searchResult.shortenUrl : "";
+      if (shortenUrl.length === 0) {
+        //generate a shorten url
         shortenUrl = generateShorteUrl(url);
+        //look up shortenUrl and makesure this havent exist before
+        let isExist = true;
+        while (isExist) {
+          isExist = await Url.exists({ shortenUrl });
+          shortenUrl = generateShorteUrl(url);
+        }
         //save it to db
-        Url.create({ url, shortenUrl }).then(() => {
-          res.render("success", { url, shortenUrl });
-        });
+        await Url.create({ url, shortenUrl });
       }
       //take the shorten url and render the result
-      console.log(shortenResult);
+      res.render("success", { url, shortenUrl });
     });
 });
 
