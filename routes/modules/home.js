@@ -30,6 +30,16 @@ router.post("/", (req, res) => {
     });
 });
 
+router.get("/:shortenUrl", (req, res) => {
+  const shortenUrl = req.params.shortenUrl;
+  Url.findOne({ shortenUrl })
+    .lean()
+    .then((result) => {
+      const redirectUrl = result ? `http://${result.url}` : "/";
+      res.redirect(redirectUrl);
+    });
+});
+
 function generateShorteUrl(url) {
   const lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
   const upperCaseLetters = lowerCaseLetters.toUpperCase();

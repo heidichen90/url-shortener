@@ -16,6 +16,9 @@ app.use(express.urlencoded({ extended: true }));
 //set up router
 app.use(routes);
 
+// setting static files
+app.use(express.static("public"));
+
 app.listen(PORT, () => {
   console.log(`App is running on http://localhost:${PORT}`);
 });
