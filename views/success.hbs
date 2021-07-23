@@ -2,7 +2,22 @@
   <div class="card-body">
     <h5 class="card-title primary">Success</h5>
     <h6 class="card-subtitle mb-2 text-muted">convert {{url}} into below:</h6>
-    <a href="/{{shortenUrl}}" class="card-link">{{shortenUrl}}</a>
-    <button type="button" class="btn btn-primary">Copy</button>
+    <a
+      id="shortenUrl"
+      href="/{{shortenUrl}}"
+      class="card-link"
+    >{{shortenUrl}}</a>
+    <button
+      onclick="copyUrl()"
+      type="button"
+      class="btn btn-primary"
+    >Copy</button>
   </div>
 </div>
+
+<script>
+  function copyUrl(){ const url = document.getElementById("shortenUrl"); const
+  elem = document.createElement("textarea"); elem.value = url.innerText;
+  document.body.appendChild(elem); elem.select(); document.execCommand("copy");
+  document.body.removeChild(elem); }
+</script>
