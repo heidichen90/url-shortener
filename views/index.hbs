@@ -1,11 +1,35 @@
-<form action="/" method="post" class="form">
+<form action="/" method="POST" class="needs-validation form" novalidate>
   <div class="form-group form__url">
     <input
       type="text"
       class="form-control"
       placeholder="input URL here"
       name="inputUrl"
+      required
     />
+    <div class="invalid-feedback">
+      this field is required！
+    </div>
   </div>
   <button type="submit" class="btn btn-primary form__submit">Submit</button>
 </form>
+
+{{! prettier-ignore }}
+<script>
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+
+  {{! prettier-ignore }}
+  const forms = document.querySelectorAll('.needs-validation')
+  // Loop over them and prevent submission
+  {{! prettier-ignore }}
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+</script>

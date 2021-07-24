@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Url = require("../../models/url");
+const { generateShorteUrl } = require("../../utils/tools");
 
 router.get("/", (req, res) => {
   res.render("index");
@@ -28,6 +29,9 @@ router.post("/", (req, res) => {
       }
       //take the shorten url and render the result
       res.render("success", { url, shortenUrl, currentUrl });
+    })
+    .catch((error) => {
+      console.log(error);
     });
 });
 
@@ -36,63 +40,58 @@ router.get("/:shortenUrl", (req, res) => {
   Url.findOne({ shortenUrl })
     .lean()
     .then((result) => {
-      const redirectUrl = result ? `http://${result.url}` : "/";
+      const redirectUrl = result ? `https://${result.url}` : "/";
       res.redirect(redirectUrl);
+    })
+    .catch((error) => {
+      console.log(error);
     });
 });
 
-function generateShorteUrl(url) {
-  const lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
-  const upperCaseLetters = lowerCaseLetters.toUpperCase();
-  const numbers = "1234567890";
+// function generateShorteUrl(url) {
+//   const lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
+//   const upperCaseLetters = lowerCaseLetters.toUpperCase();
+//   const numbers = "1234567890";
 
-  const options = {
-    length: "5",
-    lowercase: "on",
-    uppercase: "on",
-    numbers: "on",
-    excludeCharacters: undefined,
-  };
+//   const options = {
+//     length: "5",
+//     lowercase: "on",
+//     uppercase: "on",
+//     numbers: "on",
+//   };
 
-  let collection = [];
+//   let collection = [];
 
-  if (options.lowercase === "on") {
-    collection = collection.concat([...lowerCaseLetters]);
-  }
+//   if (options.lowercase === "on") {
+//     collection = collection.concat([...lowerCaseLetters]);
+//   }
 
-  if (options.uppercase === "on") {
-    collection = collection.concat([...upperCaseLetters]);
-  }
+//   if (options.uppercase === "on") {
+//     collection = collection.concat([...upperCaseLetters]);
+//   }
 
-  if (options.numbers === "on") {
-    collection = collection.concat([...numbers]);
-  }
+//   if (options.numbers === "on") {
+//     collection = collection.concat([...numbers]);
+//   }
 
-  if (options.symbols === "on") {
-    collection = collection.concat([...symbols]);
-  }
+//   if (options.symbols === "on") {
+//     collection = collection.concat([...symbols]);
+//   }
 
-  //exclude thins user do not want
-  if (options.excludeCharacters) {
-    collection = collection.filter(
-      (char) => !options.excludeCharacters.includes(char)
-    );
-  }
+//   //if it's empty collection, return error
+//   if (collection.length === 0) {
+//     return "This is not a valid option";
+//   }
 
-  //if it's empty collection, return error
-  if (collection.length === 0) {
-    return "This is not a valid option";
-  }
+//   let result = "";
 
-  let result = "";
+//   for (let i = 1; i <= options.length; i++) {
+//     const randomIndex = Math.floor(Math.random() * collection.length);
+//     result += collection[randomIndex];
+//     collection.splice(randomIndex, 1);
+//   }
 
-  for (let i = 1; i <= options.length; i++) {
-    const randomIndex = Math.floor(Math.random() * collection.length);
-    result += collection[randomIndex];
-    collection.splice(randomIndex, 1);
-  }
-
-  return result;
-}
+//   return result;
+// }
 
 module.exports = router;
