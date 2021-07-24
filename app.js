@@ -4,7 +4,7 @@ const exphbs = require("express-handlebars");
 const routes = require("./routes");
 require("./config/mongoose");
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 //set up handlebars
 app.engine("hbs", exphbs({ defaultLayout: "main", extname: ".hbs" }));

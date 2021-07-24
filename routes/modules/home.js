@@ -9,6 +9,7 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   const url = req.body.inputUrl;
   let shortenUrl = "";
+  const currentUrl = req.headers.host;
   Url.findOne({ url })
     .lean()
     .then(async (searchResult) => {
@@ -26,7 +27,7 @@ router.post("/", (req, res) => {
         await Url.create({ url, shortenUrl });
       }
       //take the shorten url and render the result
-      res.render("success", { url, shortenUrl });
+      res.render("success", { url, shortenUrl, currentUrl });
     });
 });
 
