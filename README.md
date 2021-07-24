@@ -2,8 +2,8 @@
 
 URL Shortener is an app to create a shorten URL for you
 
-![](images/expense-tracker-1.png)
-![](images/expense-tracker-2.png)
+![](images/shorten-url-1.png)
+![](images/shorten-url-2.png)
 
 ## URL
 
