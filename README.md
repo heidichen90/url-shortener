@@ -20,7 +20,7 @@ https://intense-basin-35259.herokuapp.com/
 
 Clone repository
 
-    git clone https://github.com/heidichen90/expense-tracker.git
+    git clone https://github.com/heidichen90/url-shortener.git
 
 Install Dependancies
 
