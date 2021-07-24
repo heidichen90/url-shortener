@@ -1,17 +1,20 @@
 <form action="/" method="POST" class="needs-validation form" novalidate>
   <div class="form-group form__url">
-    <input
-      type="text"
-      class="form-control"
-      placeholder="input URL here"
-      name="inputUrl"
-      required
-    />
+    <div class="input-group">
+      <span class="input-group-text">https://</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="input URL here"
+        name="inputUrl"
+        required
+      />
+    </div>
     <div class="invalid-feedback">
       this field is required！
     </div>
   </div>
-  <button type="submit" class="btn btn-primary form__submit">Submit</button>
+  <button type="submit" class="btn btn-primary form__submit">Shorten URL</button>
 </form>
 
 {{! prettier-ignore }}
