@@ -11,3 +11,13 @@
 .form__submit {
   width: fit-content;
 }
+
+.card {
+  width: 100% !important;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
