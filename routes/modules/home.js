@@ -11,8 +11,11 @@ router.post("/", async (req, res) => {
   try {
     const url = req.body.inputUrl;
     const currentUrl = req.headers.host;
-    let shortenUrl = await Url.findOne({ url }).lean();
-    if (!shortenUrl) {
+    let shortenUrl = "";
+    let shortenUrlResult = await Url.findOne({ url }).lean();
+    if (shortenUrlResult) {
+      shortenUrl = shortenUrlResult.shortenUrl;
+    } else {
       //generate a shorten url
       shortenUrl = generateShorteUrl(url);
       //look up shortenUrl and make sure its not in db

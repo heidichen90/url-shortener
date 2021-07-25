@@ -1,11 +1,11 @@
 {
   "shortenurlSeeds": [
     {
-      "url": "www.google.com",
+      "url": "http://www.google.com",
       "shortenUrl": "abc2D"
     },
     {
-      "url": "www.facebook.com",
+      "url": "https://www.facebook.com",
       "shortenUrl": "ar3Hb"
     }
   ]
