@@ -11,6 +11,7 @@ router.post("/", async (req, res) => {
   try {
     const url = req.body.inputUrl;
     const currentUrl = req.headers.host;
+    const protocol = req.protocol;
     let shortenUrl = "";
     let shortenUrlResult = await Url.findOne({ url }).lean();
     if (shortenUrlResult) {
@@ -28,7 +29,7 @@ router.post("/", async (req, res) => {
       await Url.create({ url, shortenUrl });
     }
     //take the shorten url and render the result
-    res.render("success", { url, shortenUrl, currentUrl });
+    res.render("success", { url, shortenUrl, currentUrl, protocol });
   } catch (error) {
     console.log("error");
   }
