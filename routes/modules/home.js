@@ -39,7 +39,7 @@ router.get("/:shortenUrl", (req, res) => {
   Url.findOne({ shortenUrl })
     .lean()
     .then((result) => {
-      const redirectUrl = result ? `https://${result.url}` : "/";
+      const redirectUrl = result ? result.url : "/";
       res.redirect(redirectUrl);
     })
     .catch((error) => {
