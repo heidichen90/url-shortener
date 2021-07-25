@@ -7,32 +7,28 @@ router.get("/", (req, res) => {
   res.render("index");
 });
 
-router.post("/", (req, res) => {
-  const url = req.body.inputUrl;
-  let shortenUrl = "";
-  const currentUrl = req.headers.host;
-  Url.findOne({ url })
-    .lean()
-    .then(async (searchResult) => {
-      shortenUrl = searchResult ? searchResult.shortenUrl : "";
-      if (shortenUrl.length === 0) {
-        //generate a shorten url
+router.post("/", async (req, res) => {
+  try {
+    const url = req.body.inputUrl;
+    const currentUrl = req.headers.host;
+    let shortenUrl = await Url.findOne({ url }).lean();
+    if (!shortenUrl) {
+      //generate a shorten url
+      shortenUrl = generateShorteUrl(url);
+      //look up shortenUrl and make sure its not in db
+      let isExist = true;
+      while (isExist) {
+        isExist = await Url.exists({ shortenUrl });
         shortenUrl = generateShorteUrl(url);
-        //look up shortenUrl and makesure this havent exist before
-        let isExist = true;
-        while (isExist) {
-          isExist = await Url.exists({ shortenUrl });
-          shortenUrl = generateShorteUrl(url);
-        }
-        //save it to db
-        await Url.create({ url, shortenUrl });
       }
-      //take the shorten url and render the result
-      res.render("success", { url, shortenUrl, currentUrl });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      //save it to db
+      await Url.create({ url, shortenUrl });
+    }
+    //take the shorten url and render the result
+    res.render("success", { url, shortenUrl, currentUrl });
+  } catch (error) {
+    console.log("error");
+  }
 });
 
 router.get("/:shortenUrl", (req, res) => {
