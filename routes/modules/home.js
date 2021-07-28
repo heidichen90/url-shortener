@@ -29,9 +29,9 @@ router.post("/", async (req, res) => {
       await Url.create({ url, shortenUrl });
     }
     //take the shorten url and render the result
-    res.render("success", { url, shortenUrl, currentUrl, protocol });
+    res.render("index", { url, shortenUrl, currentUrl, protocol });
   } catch (error) {
-    console.log("error");
+    console.log("error:", error );
   }
 });
 
@@ -44,7 +44,7 @@ router.get("/:shortenUrl", (req, res) => {
       res.redirect(redirectUrl);
     })
     .catch((error) => {
-      console.log(error);
+      console.log("error:", error );
     });
 });
 
