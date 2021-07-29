@@ -1,4 +1,4 @@
-function generateShorteUrl(url) {
+function generateShoertenUrl(url) {
   const lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
   const upperCaseLetters = lowerCaseLetters.toUpperCase();
   const numbers = "1234567890";
@@ -44,4 +44,4 @@ function generateShorteUrl(url) {
   return result;
 }
 
-module.exports = { generateShorteUrl };
+module.exports = { generateShoertenUrl };

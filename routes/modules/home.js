@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Url = require("../../models/url");
-const { generateShorteUrl } = require("../../utils/tools");
+const { generateShoertenUrl } = require("../../utils/tools");
 
 router.get("/", (req, res) => {
   res.render("index");
@@ -17,13 +17,11 @@ router.post("/", async (req, res) => {
     if (shortenUrlResult) {
       shortenUrl = shortenUrlResult.shortenUrl;
     } else {
-      //generate a shorten url
-      shortenUrl = generateShorteUrl(url);
       //look up shortenUrl and make sure its not in db
       let isExist = true;
       while (isExist) {
+        shortenUrl = generateShoertenUrl(url);
         isExist = await Url.exists({ shortenUrl });
-        shortenUrl = generateShorteUrl(url);
       }
       //save it to db
       await Url.create({ url, shortenUrl });
@@ -31,7 +29,7 @@ router.post("/", async (req, res) => {
     //take the shorten url and render the result
     res.render("index", { url, shortenUrl, currentUrl, protocol });
   } catch (error) {
-    console.log("error:", error );
+    console.log("error:", error);
   }
 });
 
@@ -44,7 +42,7 @@ router.get("/:shortenUrl", (req, res) => {
       res.redirect(redirectUrl);
     })
     .catch((error) => {
-      console.log("error:", error );
+      console.log("error:", error);
     });
 });
 
